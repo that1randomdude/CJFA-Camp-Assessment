@@ -1,0 +1,2953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>CJFA Knowledge Assessment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Logo-inspired palette: royal blue band, red wings, warm sun-gold */
+    --navy-deepest: #0a1f5c;     /* deepest royal blue */
+    --navy-deep: #1632a3;        /* royal blue (logo band) */
+    --navy: #2547b8;             /* primary blue */
+    --navy-light: #3d63cc;       /* lighter blue */
+    --gold: #e8a53d;             /* sun gold (inner circle) */
+    --gold-bright: #f5c068;      /* light gold highlight */
+    --gold-deep: #b8801f;        /* dark burnt gold */
+    --red: #d92626;              /* logo red (wings) */
+    --red-deep: #a51d1d;         /* deeper red */
+    --red-bright: #ec3939;       /* hover red */
+    --sky: #6ba5c9;
+    --cream: #fbf6e9;            /* warm paper background */
+    --paper: #fffcf2;            /* lighter paper */
+    --charcoal: #1a1a1a;
+    --slate: #4a5568;
+    --slate-light: #94a3b8;
+    --red-warn: #c0392b;
+    --green-ok: #1f7a4d;
+    --shadow: 0 6px 24px rgba(10,31,92,0.15);
+    --shadow-lg: 0 16px 40px rgba(10,31,92,0.22);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: 'IBM Plex Sans', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--charcoal);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background:
+      radial-gradient(circle at 0% 0%, rgba(22,50,163,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 100% 100%, rgba(217,38,38,0.07) 0%, transparent 50%),
+      radial-gradient(circle at 50% 100%, rgba(232,165,61,0.05) 0%, transparent 60%),
+      var(--cream);
+    background-attachment: fixed;
+  }
+
+  /* Subtle aviation grid pattern */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(22,50,163,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(22,50,163,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .display-font { font-family: 'Oswald', sans-serif; letter-spacing: 0.02em; }
+  .mono-font { font-family: 'IBM Plex Mono', monospace; }
+
+  /* ========== SCREEN CONTAINER ========== */
+  .screen {
+    display: none;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+  }
+  .screen.active { display: block; }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  .container-narrow {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px;
+  }
+
+  /* ========== HEADER / BRAND ========== */
+  .brand-header {
+    text-align: center;
+    padding: 40px 16px 24px;
+  }
+
+  .brand-wings {
+    width: 180px;
+    height: 60px;
+    margin: 0 auto 18px;
+    display: block;
+  }
+
+  .brand-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 5vw, 44px);
+    letter-spacing: 0.08em;
+    color: var(--navy-deep);
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+
+  .brand-subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--red-deep);
+    text-transform: uppercase;
+    margin-top: 12px;
+  }
+
+  .brand-divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 20px auto;
+    box-shadow: 0 0 0 0 var(--red);
+  }
+
+  /* ========== HOME SCREEN ========== */
+  .home-tagline {
+    text-align: center;
+    color: var(--slate);
+    font-size: 16px;
+    max-width: 540px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+  }
+
+  .home-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 600px) {
+    .home-actions { grid-template-columns: 1fr; }
+  }
+
+  .home-card {
+    background: white;
+    border: 1px solid rgba(22,50,163,0.12);
+    border-top: 4px solid var(--navy);
+    padding: 32px 28px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border-radius: 2px;
+  }
+
+  .home-card.red-top { border-top-color: var(--red); }
+  .home-card.gold-top { border-top-color: var(--gold); }
+
+  .home-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .home-card-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    color: var(--navy);
+  }
+
+  .home-card.red-top .home-card-icon { color: var(--red); }
+  .home-card.gold-top .home-card-icon { color: var(--gold-deep); }
+
+  .home-card-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--navy-deep);
+    margin-bottom: 8px;
+  }
+
+  .home-card-desc {
+    color: var(--slate);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .mode-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--navy-deep);
+    color: var(--gold-bright);
+    padding: 8px 16px;
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 24px auto;
+  }
+
+  .mode-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--red-bright);
+    box-shadow: 0 0 8px var(--red);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ========== FORMS ========== */
+  .form-card {
+    background: white;
+    padding: 36px 32px;
+    box-shadow: var(--shadow);
+    border-radius: 2px;
+    border-top: 4px solid var(--gold);
+    margin-top: 24px;
+  }
+
+  .form-card h2 {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--navy-deep);
+    margin-bottom: 6px;
+    font-size: 22px;
+  }
+
+  .form-card .subtitle {
+    color: var(--slate);
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-group label {
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid rgba(20,54,94,0.18);
+    background: var(--paper);
+    font-size: 15px;
+    font-family: inherit;
+    color: var(--charcoal);
+    border-radius: 2px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: white;
+  }
+
+  .form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+    font-family: inherit;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 500px) {
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  /* ========== BUTTONS ========== */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn:hover { background: var(--navy-deep); transform: translateY(-1px); }
+  .btn:active { transform: translateY(0); }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--navy-deepest);
+  }
+  .btn-gold:hover { background: var(--gold-bright); }
+
+  .btn-red {
+    background: var(--red);
+    color: white;
+  }
+  .btn-red:hover { background: var(--red-bright); }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--navy);
+    border: 1.5px solid var(--navy);
+  }
+  .btn-ghost:hover { background: var(--navy); color: white; }
+
+  .btn-danger {
+    background: var(--red-warn);
+  }
+  .btn-danger:hover { background: #a02e22; }
+
+  .btn-sm { padding: 8px 14px; font-size: 12px; }
+  .btn-lg { padding: 16px 32px; font-size: 16px; }
+  .btn-block { width: 100%; }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  /* ========== TEST INTERFACE ========== */
+  .test-header {
+    background: var(--navy-deep);
+    color: white;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .test-header-info {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+
+  .test-header-info strong { color: var(--gold-bright); }
+
+  .progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.4s ease;
+  }
+
+  .question-card {
+    background: white;
+    padding: 32px 28px;
+    box-shadow: var(--shadow);
+    border-radius: 2px;
+    border-left: 4px solid var(--red);
+  }
+
+  .question-tag {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    background: rgba(201,169,97,0.12);
+    padding: 4px 10px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+
+  .question-text {
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--navy-deep);
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+
+  .option-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .option {
+    background: var(--paper);
+    border: 1.5px solid rgba(20,54,94,0.15);
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all 0.18s;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    user-select: none;
+  }
+
+  .option:hover {
+    border-color: var(--navy);
+    background: white;
+  }
+
+  .option.selected {
+    border-color: var(--gold);
+    background: rgba(201,169,97,0.08);
+    box-shadow: 0 0 0 1px var(--gold);
+  }
+
+  .option-letter {
+    width: 28px;
+    height: 28px;
+    background: white;
+    border: 1.5px solid rgba(20,54,94,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    color: var(--navy);
+    border-radius: 50%;
+    flex-shrink: 0;
+    font-size: 13px;
+  }
+
+  .option.selected .option-letter {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--navy-deepest);
+  }
+
+  .option-text {
+    flex: 1;
+    color: var(--charcoal);
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  /* ========== COMPLETE SCREEN ========== */
+  .complete-card {
+    background: white;
+    padding: 56px 40px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    border-radius: 2px;
+    border-top: 4px solid var(--gold);
+    margin-top: 40px;
+  }
+
+  .complete-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    color: var(--gold);
+  }
+
+  .complete-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--navy-deep);
+    margin-bottom: 12px;
+  }
+
+  .complete-message {
+    color: var(--slate);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto 24px;
+  }
+
+  .complete-stamp {
+    display: inline-block;
+    border: 2px solid var(--gold);
+    color: var(--gold-deep);
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    padding: 8px 20px;
+    font-size: 12px;
+    transform: rotate(-2deg);
+    margin-top: 8px;
+  }
+
+  /* ========== ADMIN DASHBOARD ========== */
+  .admin-topbar {
+    background: var(--navy-deepest);
+    color: white;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .admin-topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .admin-topbar-brand svg {
+    color: var(--gold);
+    width: 32px;
+    height: auto;
+  }
+
+  .admin-topbar-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 16px;
+  }
+
+  .admin-topbar-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gold-bright);
+    opacity: 0.8;
+  }
+
+  .admin-topbar-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .mode-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(201,169,97,0.15);
+    color: var(--gold-bright);
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .admin-tabs {
+    display: flex;
+    background: var(--navy-deep);
+    overflow-x: auto;
+    border-bottom: 3px solid var(--gold);
+  }
+
+  .admin-tab {
+    padding: 14px 24px;
+    color: rgba(255,255,255,0.7);
+    cursor: pointer;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 13px;
+    border: none;
+    background: transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+  }
+
+  .admin-tab:hover { color: white; }
+  .admin-tab.active {
+    color: var(--gold-bright);
+    border-bottom-color: var(--gold);
+  }
+
+  .admin-content {
+    padding: 32px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .admin-tab-content {
+    display: none;
+  }
+  .admin-tab-content.active { display: block; }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .section-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--navy-deep);
+    font-size: 22px;
+  }
+
+  /* ========== STATS GRID ========== */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: white;
+    padding: 20px;
+    border-left: 3px solid var(--gold);
+    box-shadow: var(--shadow);
+    border-radius: 2px;
+  }
+
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 6px;
+  }
+
+  .stat-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--navy-deep);
+    line-height: 1;
+  }
+
+  .stat-value-sm { font-size: 24px; }
+
+  .stat-suffix {
+    font-size: 16px;
+    color: var(--slate);
+    font-weight: 400;
+  }
+
+  .stat-trend {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--green-ok);
+    font-weight: 500;
+  }
+  .stat-trend.down { color: var(--red-warn); }
+
+  /* ========== TABLES ========== */
+  .data-table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+    box-shadow: var(--shadow);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .data-table th {
+    background: var(--navy-deep);
+    color: var(--gold-bright);
+    padding: 12px 14px;
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .data-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(20,54,94,0.08);
+    font-size: 14px;
+  }
+
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--paper); }
+
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 2px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .badge-pre {
+    background: rgba(20,54,94,0.1);
+    color: var(--navy);
+  }
+
+  .badge-post {
+    background: rgba(31,122,77,0.12);
+    color: var(--green-ok);
+  }
+
+  .badge-pending {
+    background: rgba(148,163,184,0.2);
+    color: var(--slate);
+  }
+
+  .badge-improved {
+    background: rgba(31,122,77,0.12);
+    color: var(--green-ok);
+  }
+
+  .badge-flat {
+    background: rgba(148,163,184,0.2);
+    color: var(--slate);
+  }
+
+  .badge-down {
+    background: rgba(192,57,43,0.12);
+    color: var(--red-warn);
+  }
+
+  /* ========== QUESTION LIST ========== */
+  .question-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .question-row {
+    background: white;
+    padding: 16px 18px;
+    box-shadow: var(--shadow);
+    border-radius: 2px;
+    border-left: 3px solid var(--navy);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .question-row-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .question-row-meta {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+
+  .question-row-text {
+    color: var(--charcoal);
+    font-size: 14px;
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .question-row-actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .icon-btn {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: 1px solid rgba(20,54,94,0.2);
+    color: var(--navy);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    transition: all 0.15s;
+  }
+
+  .icon-btn:hover { background: var(--navy); color: white; }
+  .icon-btn.danger:hover { background: var(--red-warn); border-color: var(--red-warn); }
+  .icon-btn svg { width: 16px; height: 16px; }
+
+  /* ========== MODAL ========== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(6,24,46,0.6);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+    animation: fadeIn 0.2s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .modal {
+    background: white;
+    width: 100%;
+    max-width: 640px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 2px;
+    box-shadow: var(--shadow-lg);
+    border-top: 4px solid var(--gold);
+  }
+
+  .modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(20,54,94,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .modal-title {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--navy-deep);
+    font-size: 18px;
+  }
+
+  .modal-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--slate);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+  }
+  .modal-close:hover { background: var(--paper); color: var(--charcoal); }
+
+  .modal-body {
+    padding: 24px;
+  }
+
+  .modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid rgba(20,54,94,0.1);
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background: var(--paper);
+  }
+
+  /* ========== RADIO/SELECT FOR CORRECT ANSWER ========== */
+  .answer-options-edit {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .answer-option-edit {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .answer-option-edit input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .answer-option-edit input[type="text"] {
+    flex: 1;
+  }
+
+  /* ========== ALERTS ========== */
+  .alert {
+    padding: 14px 18px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    border-left: 3px solid;
+  }
+  .alert-info {
+    background: rgba(20,54,94,0.06);
+    border-color: var(--navy);
+    color: var(--navy-deep);
+  }
+  .alert-warn {
+    background: rgba(201,169,97,0.12);
+    border-color: var(--gold);
+    color: var(--charcoal);
+  }
+  .alert-danger {
+    background: rgba(192,57,43,0.08);
+    border-color: var(--red-warn);
+    color: var(--red-warn);
+  }
+  .alert-success {
+    background: rgba(31,122,77,0.08);
+    border-color: var(--green-ok);
+    color: var(--green-ok);
+  }
+
+  /* ========== DETAIL VIEW ========== */
+  .camper-detail-card {
+    background: white;
+    padding: 28px;
+    box-shadow: var(--shadow);
+    border-radius: 2px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--gold);
+  }
+
+  .camper-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .camper-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--navy-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .camper-squadron {
+    color: var(--slate);
+    font-size: 13px;
+    margin-top: 2px;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .score-comparison {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: center;
+    background: var(--paper);
+    padding: 20px;
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+
+  .score-block {
+    text-align: center;
+  }
+
+  .score-block-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 6px;
+  }
+
+  .score-value {
+    font-family: 'Oswald', sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    color: var(--navy-deep);
+    line-height: 1;
+  }
+
+  .score-value-percent {
+    font-size: 16px;
+    color: var(--slate);
+    font-weight: 400;
+  }
+
+  .score-arrow {
+    color: var(--gold);
+    font-size: 24px;
+  }
+
+  .score-delta {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .score-delta.up { color: var(--green-ok); }
+  .score-delta.down { color: var(--red-warn); }
+  .score-delta.flat { color: var(--slate); }
+
+  .question-comparison-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .question-comparison {
+    background: var(--paper);
+    padding: 12px 14px;
+    border-radius: 2px;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    font-size: 13px;
+  }
+
+  .qc-text {
+    color: var(--charcoal);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .qc-result {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--slate);
+  }
+
+  .qc-status {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .qc-status.correct { background: var(--green-ok); }
+  .qc-status.wrong { background: var(--red-warn); }
+  .qc-status.empty { background: var(--slate-light); }
+
+  /* ========== EMPTY STATES ========== */
+  .empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--slate);
+    background: white;
+    border-radius: 2px;
+    border: 2px dashed rgba(20,54,94,0.15);
+  }
+
+  .empty-state h3 {
+    font-family: 'Oswald', sans-serif;
+    color: var(--navy-deep);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  /* ========== PIN PAD ========== */
+  .pin-input {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 24px 0;
+  }
+
+  .pin-digit {
+    width: 56px;
+    height: 64px;
+    border: 1.5px solid rgba(20,54,94,0.2);
+    background: var(--paper);
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--navy-deep);
+    border-radius: 2px;
+  }
+
+  .pin-digit:focus {
+    outline: none;
+    border-color: var(--gold);
+    background: white;
+  }
+
+  /* ========== HELPER UTILS ========== */
+  .text-mono { font-family: 'IBM Plex Mono', monospace; }
+  .text-muted { color: var(--slate); }
+  .text-small { font-size: 13px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .mb-16 { margin-bottom: 16px; }
+  .mb-24 { margin-bottom: 24px; }
+  .text-center { text-align: center; }
+  .flex { display: flex; }
+  .gap-8 { gap: 8px; }
+  .gap-12 { gap: 12px; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .flex-wrap { flex-wrap: wrap; }
+  .hidden { display: none !important; }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--slate);
+    text-decoration: none;
+    font-size: 13px;
+    font-family: 'IBM Plex Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .back-link:hover { color: var(--navy); }
+
+  /* per-question stats bar */
+  .qstat-row {
+    background: white;
+    padding: 14px 18px;
+    border-radius: 2px;
+    box-shadow: var(--shadow);
+    margin-bottom: 8px;
+    border-left: 3px solid var(--navy);
+  }
+  .qstat-row.high-gain { border-left-color: var(--green-ok); }
+  .qstat-row.problem { border-left-color: var(--red-warn); }
+
+  .qstat-text {
+    font-size: 14px;
+    color: var(--charcoal);
+    margin-bottom: 8px;
+  }
+
+  .qstat-bars {
+    display: grid;
+    grid-template-columns: 80px 1fr 50px;
+    gap: 10px;
+    align-items: center;
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  .qstat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  .qstat-bar {
+    height: 8px;
+    background: rgba(20,54,94,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .qstat-bar-fill {
+    height: 100%;
+    background: var(--navy);
+    transition: width 0.4s;
+  }
+  .qstat-bar-fill.post { background: var(--gold); }
+
+  .qstat-pct {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+    color: var(--navy-deep);
+    text-align: right;
+  }
+
+  /* loading */
+  .loading-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--slate);
+    font-family: 'IBM Plex Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 12px;
+  }
+</style>
+<!-- Firebase SDK (compat mode for global access) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- SETUP SCREEN (shown if Firebase not configured) -->
+<!-- ============================================================ -->
+<div class="screen" id="screen-setup">
+  <div class="container-narrow">
+    <div class="brand-header">
+      <svg class="brand-wings" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#d92626">
+          <path d="M10 40 Q 35 28, 60 36 L 88 40 L 60 44 Q 35 52, 10 40 Z"/>
+          <path d="M18 32 Q 40 22, 70 30 L 88 36 L 70 38 Q 40 42, 18 32 Z" opacity="0.85"/>
+          <path d="M18 48 Q 40 58, 70 50 L 88 44 L 70 42 Q 40 38, 18 48 Z" opacity="0.85"/>
+          <path d="M230 40 Q 205 28, 180 36 L 152 40 L 180 44 Q 205 52, 230 40 Z"/>
+          <path d="M222 32 Q 200 22, 170 30 L 152 36 L 170 38 Q 200 42, 222 32 Z" opacity="0.85"/>
+          <path d="M222 48 Q 200 58, 170 50 L 152 44 L 170 42 Q 200 38, 222 48 Z" opacity="0.85"/>
+        </g>
+        <circle cx="120" cy="40" r="28" fill="#1632a3"/>
+        <circle cx="120" cy="40" r="22" fill="#fbf6e9"/>
+        <circle cx="120" cy="40" r="17" fill="#e8a53d"/>
+      </svg>
+      <div class="brand-title">Setup Required</div>
+      <div class="brand-subtitle">Cloud Configuration</div>
+      <div class="brand-divider"></div>
+    </div>
+
+    <div class="form-card" style="border-top-color: var(--red);">
+      <h2>Firebase Not Configured</h2>
+      <p class="subtitle">This tool stores camper data in Google Firebase. Before campers can use it, the camp director needs to configure the connection.</p>
+
+      <div class="alert alert-info">
+        <strong>For camp directors:</strong> open this HTML file in a text editor and find the section near the top of the &lt;script&gt; block labeled <code>FIREBASE CONFIGURATION</code>. Replace the placeholder values with your Firebase project's web config.
+      </div>
+
+      <div class="alert alert-warn mt-16" id="setup-error" style="display:none;"></div>
+
+      <h2 style="margin-top: 32px; font-size: 16px;">Quick Setup Outline</h2>
+      <ol style="padding-left: 20px; line-height: 1.7; color: var(--charcoal); font-size: 14px;">
+        <li>Create a free Firebase project at <strong>console.firebase.google.com</strong></li>
+        <li>Enable <strong>Firestore Database</strong> (start in test mode)</li>
+        <li>Enable <strong>Anonymous Authentication</strong> under Authentication → Sign-in method</li>
+        <li>Add a Web App in Project Settings and copy the <code>firebaseConfig</code> values</li>
+        <li>Paste those values into this HTML file, then host the file (e.g., GitHub Pages)</li>
+        <li>Apply the recommended Firestore security rules (see setup guide)</li>
+      </ol>
+
+      <p class="text-small text-muted mt-24">Once configured, this screen will be replaced with the home screen automatically.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- HOME SCREEN -->
+<!-- ============================================================ -->
+<div class="screen active" id="screen-home">
+  <div class="container-narrow">
+    <div class="brand-header">
+      <svg class="brand-wings" viewBox="0 0 240 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Left wing (red) -->
+        <g fill="#d92626">
+          <path d="M10 40 Q 35 28, 60 36 L 88 40 L 60 44 Q 35 52, 10 40 Z"/>
+          <path d="M18 32 Q 40 22, 70 30 L 88 36 L 70 38 Q 40 42, 18 32 Z" opacity="0.85"/>
+          <path d="M18 48 Q 40 58, 70 50 L 88 44 L 70 42 Q 40 38, 18 48 Z" opacity="0.85"/>
+        </g>
+        <!-- Right wing (red, mirror) -->
+        <g fill="#d92626">
+          <path d="M230 40 Q 205 28, 180 36 L 152 40 L 180 44 Q 205 52, 230 40 Z"/>
+          <path d="M222 32 Q 200 22, 170 30 L 152 36 L 170 38 Q 200 42, 222 32 Z" opacity="0.85"/>
+          <path d="M222 48 Q 200 58, 170 50 L 152 44 L 170 42 Q 200 38, 222 48 Z" opacity="0.85"/>
+        </g>
+        <!-- Center medallion: blue ring with gold core -->
+        <circle cx="120" cy="40" r="28" fill="#1632a3"/>
+        <circle cx="120" cy="40" r="22" fill="#fbf6e9"/>
+        <circle cx="120" cy="40" r="17" fill="#e8a53d"/>
+        <!-- Stars on the blue ring -->
+        <g fill="#fbf6e9">
+          <polygon points="120,15 121.5,18.5 125,18.5 122.2,21 123.3,24.5 120,22.3 116.7,24.5 117.8,21 115,18.5 118.5,18.5" transform="scale(0.6) translate(80,5)"/>
+          <polygon points="120,15 121.5,18.5 125,18.5 122.2,21 123.3,24.5 120,22.3 116.7,24.5 117.8,21 115,18.5 118.5,18.5" transform="scale(0.6) translate(80,90)"/>
+        </g>
+      </svg>
+      <div class="brand-title">Chappie James<br>Flight Academy</div>
+      <div class="brand-subtitle">Knowledge Assessment</div>
+      <div class="brand-divider"></div>
+    </div>
+
+    <p class="home-tagline">Pre-camp and post-camp knowledge check. Take your assessment to track your aviation learning over the week.</p>
+
+    <div class="text-center">
+      <div class="mode-indicator">
+        <span class="mode-dot"></span>
+        <span id="home-mode-text">DAY 1 — PRE-TEST ACTIVE</span>
+      </div>
+    </div>
+
+    <div class="home-actions">
+      <div class="home-card" onclick="startCamperFlow()">
+        <svg class="home-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 11l-3-3m0 0l-3 3m3-3v8"/>
+        </svg>
+        <div class="home-card-title">I'm a Camper</div>
+        <div class="home-card-desc">Take the knowledge assessment</div>
+      </div>
+      <div class="home-card red-top" onclick="showAdminPin()">
+        <svg class="home-card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+        <div class="home-card-title">Director Access</div>
+        <div class="home-card-desc">Manage questions, campers & results</div>
+      </div>
+    </div>
+
+    <div class="text-center mt-24" style="opacity: 0.5; font-size: 11px; font-family: 'IBM Plex Mono', monospace; letter-spacing: 0.2em; color: var(--slate);">
+      EST. 2026 &middot; PENSACOLA, FL
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- CAMPER NAME SCREEN -->
+<!-- ============================================================ -->
+<div class="screen" id="screen-camper-name">
+  <div class="container-narrow">
+    <div class="brand-header">
+      <div class="brand-title">Knowledge Check</div>
+      <div class="brand-subtitle" id="camper-name-mode">Day 1 — Pre-Test</div>
+      <div class="brand-divider"></div>
+    </div>
+
+    <button class="back-link" onclick="goHome()">← Back</button>
+
+    <div class="form-card">
+      <h2>Identify Yourself</h2>
+      <p class="subtitle">Enter your name to begin.</p>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" id="input-first-name" autocomplete="given-name" autocapitalize="words" maxlength="40">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" id="input-last-name" autocomplete="family-name" autocapitalize="words" maxlength="40">
+        </div>
+      </div>
+
+      <div id="camper-name-alert"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-red btn-lg" onclick="submitCamperIdentity()">Begin Assessment →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- CAMPER TEST SCREEN -->
+<!-- ============================================================ -->
+<div class="screen" id="screen-test">
+  <div class="container-narrow">
+    <div class="test-header">
+      <div>
+        <div class="test-header-info" id="test-camper-info">CAMPER</div>
+        <div class="test-header-info mt-16" style="margin-top:6px;">
+          <strong id="test-progress-text">QUESTION 1 OF 10</strong>
+        </div>
+      </div>
+      <div>
+        <div class="test-header-info" id="test-mode-tag">DAY 1 — PRE-TEST</div>
+      </div>
+      <div class="progress-bar" style="flex-basis: 100%;">
+        <div class="progress-fill" id="test-progress-fill" style="width: 10%;"></div>
+      </div>
+    </div>
+
+    <div class="question-card" id="question-card">
+      <!-- Populated by JS -->
+    </div>
+
+    <div class="btn-row" style="justify-content: space-between;">
+      <button class="btn btn-ghost" id="btn-prev-q" onclick="prevQuestion()">← Previous</button>
+      <button class="btn btn-gold" id="btn-next-q" onclick="nextQuestion()" disabled>Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- CAMPER COMPLETE SCREEN -->
+<!-- ============================================================ -->
+<div class="screen" id="screen-complete">
+  <div class="container-narrow">
+    <div class="complete-card">
+      <svg class="complete-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      <div class="complete-title" id="complete-title">Mission Complete</div>
+      <p class="complete-message" id="complete-message">
+        Your assessment has been logged. Welcome to camp.
+      </p>
+      <div class="complete-stamp" id="complete-stamp">RECORDED</div>
+
+      <div class="btn-row" style="justify-content: center; margin-top: 32px;">
+        <button class="btn" onclick="goHome()">Return to Start</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ADMIN PIN SCREEN -->
+<!-- ============================================================ -->
+<div class="screen" id="screen-admin-pin">
+  <div class="container-narrow">
+    <div class="brand-header">
+      <div class="brand-title">Director Access</div>
+      <div class="brand-subtitle">Restricted</div>
+      <div class="brand-divider"></div>
+    </div>
+
+    <button class="back-link" onclick="goHome()">← Back</button>
+
+    <div class="form-card">
+      <h2>Enter PIN</h2>
+      <p class="subtitle">Default PIN: <strong>0000</strong> &middot; Change after first login.</p>
+      <div class="pin-input">
+        <input class="pin-digit" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*">
+        <input class="pin-digit" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*">
+        <input class="pin-digit" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*">
+        <input class="pin-digit" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]*">
+      </div>
+      <div id="pin-alert"></div>
+      <div class="btn-row" style="justify-content:center;">
+        <button class="btn btn-gold btn-lg" onclick="submitAdminPin()">Authenticate</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- ADMIN DASHBOARD -->
+<!-- ============================================================ -->
+<div class="screen" id="screen-admin">
+  <div class="admin-topbar">
+    <div class="admin-topbar-brand">
+      <svg viewBox="0 0 240 80" width="56" height="auto" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#d92626">
+          <path d="M10 40 Q 35 28, 60 36 L 88 40 L 60 44 Q 35 52, 10 40 Z"/>
+          <path d="M18 32 Q 40 22, 70 30 L 88 36 L 70 38 Q 40 42, 18 32 Z" opacity="0.85"/>
+          <path d="M18 48 Q 40 58, 70 50 L 88 44 L 70 42 Q 40 38, 18 48 Z" opacity="0.85"/>
+          <path d="M230 40 Q 205 28, 180 36 L 152 40 L 180 44 Q 205 52, 230 40 Z"/>
+          <path d="M222 32 Q 200 22, 170 30 L 152 36 L 170 38 Q 200 42, 222 32 Z" opacity="0.85"/>
+          <path d="M222 48 Q 200 58, 170 50 L 152 44 L 170 42 Q 200 38, 222 48 Z" opacity="0.85"/>
+        </g>
+        <circle cx="120" cy="40" r="28" fill="#1632a3"/>
+        <circle cx="120" cy="40" r="22" fill="#fbf6e9"/>
+        <circle cx="120" cy="40" r="17" fill="#e8a53d"/>
+      </svg>
+      <div>
+        <div class="admin-topbar-title">CJFA Director Console</div>
+        <div class="admin-topbar-sub">Authorized Personnel</div>
+      </div>
+    </div>
+    <div class="admin-topbar-actions">
+      <span class="mode-pill" id="admin-mode-pill">DAY 1 — PRE-TEST</span>
+      <button class="btn btn-sm" onclick="refreshAdminData()" id="btn-refresh" title="Pull latest data from cloud">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right: 4px;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        Refresh
+      </button>
+      <button class="btn btn-sm" onclick="goHome()">Exit</button>
+    </div>
+  </div>
+
+  <div class="admin-tabs">
+    <button class="admin-tab active" data-tab="overview" onclick="switchAdminTab('overview')">Overview</button>
+    <button class="admin-tab" data-tab="questions" onclick="switchAdminTab('questions')">Questions</button>
+    <button class="admin-tab" data-tab="campers" onclick="switchAdminTab('campers')">Campers</button>
+    <button class="admin-tab" data-tab="results" onclick="switchAdminTab('results')">Results</button>
+    <button class="admin-tab" data-tab="settings" onclick="switchAdminTab('settings')">Settings</button>
+  </div>
+
+  <div class="admin-content">
+
+    <!-- OVERVIEW TAB -->
+    <div class="admin-tab-content active" id="tab-overview">
+      <div class="section-header">
+        <div class="section-title">Camp Overview</div>
+      </div>
+      <div class="stats-grid" id="stats-grid"></div>
+
+      <div class="section-header" style="margin-top: 32px;">
+        <div class="section-title" style="font-size:18px;">Test Mode</div>
+      </div>
+      <div class="form-card" style="margin-top:0; border-top-color: var(--navy);">
+        <p class="subtitle">Switch which test campers see when they log in. Day 1 is the pre-test; Day 5 is the post-test using the same questions.</p>
+        <div class="btn-row">
+          <button class="btn" id="btn-mode-day1" onclick="setMode('day1')">Set Day 1 (Pre-Test)</button>
+          <button class="btn btn-gold" id="btn-mode-day5" onclick="setMode('day5')">Set Day 5 (Post-Test)</button>
+        </div>
+      </div>
+
+      <div class="section-header" style="margin-top: 32px;">
+        <div class="section-title" style="font-size:18px;">Per-Question Performance</div>
+      </div>
+      <div id="question-stats-list"></div>
+    </div>
+
+    <!-- QUESTIONS TAB -->
+    <div class="admin-tab-content" id="tab-questions">
+      <div class="section-header">
+        <div class="section-title">Question Bank</div>
+        <div class="flex gap-8 flex-wrap">
+          <button class="btn btn-ghost btn-sm" onclick="exportQuestions()">Export JSON</button>
+          <button class="btn btn-ghost btn-sm" onclick="document.getElementById('import-input').click()">Import JSON</button>
+          <input type="file" id="import-input" accept=".json" style="display:none" onchange="importQuestions(event)">
+          <button class="btn btn-gold" onclick="openQuestionEditor()">+ Add Question</button>
+        </div>
+      </div>
+
+      <div id="questions-alert"></div>
+      <div id="question-list-container"></div>
+    </div>
+
+    <!-- CAMPERS TAB -->
+    <div class="admin-tab-content" id="tab-campers">
+      <div class="section-header">
+        <div class="section-title">Campers</div>
+        <div class="flex gap-8 flex-wrap">
+          <button class="btn btn-ghost btn-sm" onclick="exportCampers()">Export CSV</button>
+          <button class="btn btn-gold" onclick="openCamperEditor()">+ Add Camper</button>
+        </div>
+      </div>
+
+      <div id="campers-list-container"></div>
+    </div>
+
+    <!-- RESULTS TAB -->
+    <div class="admin-tab-content" id="tab-results">
+      <div class="section-header">
+        <div class="section-title">Results</div>
+        <div class="flex gap-8 flex-wrap">
+          <button class="btn btn-ghost btn-sm" onclick="exportResults()">Export CSV</button>
+          <button class="btn btn-ghost btn-sm" onclick="window.print()">Print Summary</button>
+        </div>
+      </div>
+
+      <div id="results-list-container"></div>
+    </div>
+
+    <!-- SETTINGS TAB -->
+    <div class="admin-tab-content" id="tab-settings">
+      <div class="section-header">
+        <div class="section-title">Settings</div>
+      </div>
+
+      <div class="form-card" style="margin-top:0; border-top-color: var(--gold);">
+        <h2>Cloud Sync (Firebase)</h2>
+        <p class="subtitle">This tool stores all data in Google Firebase. Campers can take their tests on any device with a browser — no logins required — and results sync to your director console in real time.</p>
+        <div class="alert alert-warn mt-16" style="margin-bottom:0;">
+          <strong>Important:</strong> Anyone with the URL of this hosted page can submit a test or attempt director access. Share the link only with camp staff and campers, and change the default PIN below before camp begins.
+        </div>
+      </div>
+
+      <div class="form-card" style="margin-top:16px;">
+        <h2>Director PIN</h2>
+        <p class="subtitle">Change the 4-digit PIN that controls director access.</p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>New PIN</label>
+            <input type="tel" id="new-pin" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="4 digits">
+          </div>
+          <div class="form-group">
+            <label>Confirm PIN</label>
+            <input type="tel" id="new-pin-confirm" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="4 digits">
+          </div>
+        </div>
+        <div id="pin-change-alert"></div>
+        <div class="btn-row">
+          <button class="btn" onclick="changePin()">Update PIN</button>
+        </div>
+      </div>
+
+      <div class="form-card" style="margin-top: 16px; border-top-color: var(--red-warn);">
+        <h2 style="color: var(--red-warn);">Reset Camp Data</h2>
+        <p class="subtitle">Clears all campers and test results, but keeps your question bank and director PIN. Use this between camp years.</p>
+        <div class="btn-row">
+          <button class="btn btn-danger" onclick="confirmResetCampData()">Reset Campers & Results</button>
+        </div>
+      </div>
+
+      <div class="form-card" style="margin-top: 16px; border-top-color: var(--red-warn);">
+        <h2 style="color: var(--red-warn);">Full Reset</h2>
+        <p class="subtitle">Erases everything: questions, campers, results, settings. The tool returns to factory state.</p>
+        <div class="btn-row">
+          <button class="btn btn-danger" onclick="confirmFullReset()">Erase All Data</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MODAL -->
+<!-- ============================================================ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Modal</div>
+      <button class="modal-close" onclick="closeModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+// ============================================================
+// FIREBASE CONFIGURATION
+// Replace these values with your Firebase project's config.
+// Get them from Firebase Console → Project Settings → Your apps → Web app.
+// ============================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyAeVPU6xZJMg92y-4HOTWQLwd5DIYQdXTE",
+  authDomain: "chappie-james-camp.firebaseapp.com",
+  projectId: "chappie-james-camp",
+  storageBucket: "chappie-james-camp.firebasestorage.app",
+  messagingSenderId: "787261784408",
+  appId: "1:787261784408:web:d404ab267134427908652d"
+};
+// ============================================================
+
+let db = null;
+let auth = null;
+let firebaseReady = false;
+
+function isFirebaseConfigured() {
+  return firebaseConfig.apiKey &&
+         !firebaseConfig.apiKey.includes('REPLACE') &&
+         firebaseConfig.projectId &&
+         !firebaseConfig.projectId.includes('REPLACE');
+}
+
+async function initFirebase() {
+  if (!isFirebaseConfigured()) return false;
+  try {
+    firebase.initializeApp(firebaseConfig);
+    db = firebase.firestore();
+    auth = firebase.auth();
+    // Anonymous auth — transparent to users, prevents anonymous internet access
+    await auth.signInAnonymously();
+    // Enable offline persistence (best effort — fails silently if unsupported)
+    try {
+      await db.enablePersistence({ synchronizeTabs: true });
+    } catch (persistErr) {
+      // multiple tabs or unsupported browser — that's OK
+    }
+    firebaseReady = true;
+    return true;
+  } catch (e) {
+    console.error('Firebase init failed:', e);
+    const errBox = document.getElementById('setup-error');
+    if (errBox) {
+      errBox.style.display = 'block';
+      errBox.innerHTML = `<strong>Connection error:</strong> ${escapeHtml(e.message || String(e))}. Check your Firebase config and that Anonymous Authentication is enabled.`;
+    }
+    return false;
+  }
+}
+
+const DEFAULT_SETTINGS = {
+  adminPin: '0000',
+  currentMode: 'day1'
+};
+
+const state = {
+  questionBank: [],
+  campers: [],
+  results: [],
+  settings: { ...DEFAULT_SETTINGS },
+  currentCamper: null,
+  currentTest: {
+    answers: {},
+    questionIndex: 0,
+    questions: []
+  },
+  isLoading: false
+};
+
+// Default question bank (camp director can replace these)
+const DEFAULT_QUESTIONS = [
+  {
+    id: 'q1', topic: 'Aviation History', difficulty: 'easy', type: 'mc',
+    question: 'General Daniel "Chappie" James Jr. holds the distinction of being the first African American to achieve what military rank?',
+    options: ['Three-star general', 'Four-star general', 'Brigadier general', 'Major general'],
+    correctIndex: 1
+  },
+  {
+    id: 'q2', topic: 'Aviation History', difficulty: 'medium', type: 'mc',
+    question: 'The Tuskegee Airmen primarily flew which fighter aircraft in WWII?',
+    options: ['P-38 Lightning', 'P-47 Thunderbolt', 'P-51 Mustang', 'F4U Corsair'],
+    correctIndex: 2
+  },
+  {
+    id: 'q3', topic: 'Aerodynamics', difficulty: 'easy', type: 'mc',
+    question: 'Which is NOT one of the four fundamental forces of flight?',
+    options: ['Lift', 'Drag', 'Pressure', 'Thrust'],
+    correctIndex: 2
+  },
+  {
+    id: 'q4', topic: 'Aerodynamics', difficulty: 'easy', type: 'mc',
+    question: 'Lift is generated primarily by which part of the aircraft?',
+    options: ['Fuselage', 'Wings', 'Tail', 'Propeller'],
+    correctIndex: 1
+  },
+  {
+    id: 'q5', topic: 'Aircraft Systems', difficulty: 'medium', type: 'mc',
+    question: 'The elevator controls movement around which axis of the aircraft?',
+    options: ['Roll (longitudinal)', 'Pitch (lateral)', 'Yaw (vertical)', 'None of these'],
+    correctIndex: 1
+  },
+  {
+    id: 'q6', topic: 'Aircraft Systems', difficulty: 'medium', type: 'mc',
+    question: 'Ailerons primarily control which type of motion?',
+    options: ['Pitch', 'Yaw', 'Roll', 'Throttle'],
+    correctIndex: 2
+  },
+  {
+    id: 'q7', topic: 'Aircraft Systems', difficulty: 'medium', type: 'tf',
+    question: 'The rudder is operated using the pilot\'s feet on the rudder pedals.',
+    options: ['True', 'False'],
+    correctIndex: 0
+  },
+  {
+    id: 'q8', topic: 'Weather', difficulty: 'medium', type: 'mc',
+    question: 'What does the abbreviation METAR refer to in aviation?',
+    options: ['A type of cloud formation', 'A routine aviation weather report', 'A flight planning waypoint', 'An aircraft engine type'],
+    correctIndex: 1
+  },
+  {
+    id: 'q9', topic: 'Weather', difficulty: 'hard', type: 'mc',
+    question: 'Wind shear is best described as:',
+    options: ['Heavy rainfall during a thunderstorm', 'A sudden change in wind direction or speed over a short distance', 'Wind blowing from the north', 'Calm air at high altitude'],
+    correctIndex: 1
+  },
+  {
+    id: 'q10', topic: 'Navigation', difficulty: 'easy', type: 'mc',
+    question: 'What does VFR stand for?',
+    options: ['Very Fast Routing', 'Visual Flight Rules', 'Vertical Flight Reference', 'Variable Frequency Receiver'],
+    correctIndex: 1
+  },
+  {
+    id: 'q11', topic: 'Navigation', difficulty: 'medium', type: 'tf',
+    question: 'A magnetic compass on an aircraft points to true north.',
+    options: ['True', 'False'],
+    correctIndex: 1
+  },
+  {
+    id: 'q12', topic: 'Career Pathways', difficulty: 'easy', type: 'mc',
+    question: 'Naval Aviators conduct primary flight training out of which Florida location?',
+    options: ['NAS Jacksonville', 'NAS Whiting Field, Pensacola', 'NAS Key West', 'NAS Mayport'],
+    correctIndex: 1
+  }
+];
+
+// ============================================================
+// STORAGE HELPERS (Firebase Firestore)
+//
+// Data model:
+//   /config/qbank        — single doc with question bank
+//   /config/settings     — single doc with PIN and currentMode
+//   /campers/{id}        — one doc per camper
+//   /results/{id_mode}   — one doc per test submission
+// ============================================================
+
+async function loadCore() {
+  if (!firebaseReady) return;
+  try {
+    const qbDoc = await db.collection('config').doc('qbank').get();
+    if (qbDoc.exists && qbDoc.data().questions) {
+      state.questionBank = qbDoc.data().questions;
+    } else {
+      state.questionBank = DEFAULT_QUESTIONS.slice();
+      await saveQuestionBank();
+    }
+  } catch (e) {
+    console.error('loadCore qbank:', e);
+    state.questionBank = DEFAULT_QUESTIONS.slice();
+  }
+
+  try {
+    const sDoc = await db.collection('config').doc('settings').get();
+    if (sDoc.exists) {
+      state.settings = { ...DEFAULT_SETTINGS, ...sDoc.data() };
+    } else {
+      state.settings = { ...DEFAULT_SETTINGS };
+      await saveSettings();
+    }
+  } catch (e) {
+    console.error('loadCore settings:', e);
+    state.settings = { ...DEFAULT_SETTINGS };
+  }
+}
+
+async function loadCampers() {
+  if (!firebaseReady) return;
+  try {
+    const snap = await db.collection('campers').get();
+    state.campers = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  } catch (e) {
+    console.error('loadCampers:', e);
+    state.campers = [];
+  }
+}
+
+async function loadResults() {
+  if (!firebaseReady) return;
+  try {
+    const snap = await db.collection('results').get();
+    state.results = snap.docs.map(d => d.data());
+  } catch (e) {
+    console.error('loadResults:', e);
+    state.results = [];
+  }
+}
+
+async function loadAll() {
+  state.isLoading = true;
+  await loadCore();
+  await Promise.all([loadCampers(), loadResults()]);
+  state.isLoading = false;
+}
+
+async function saveQuestionBank() {
+  if (!firebaseReady) return;
+  try {
+    await db.collection('config').doc('qbank').set({
+      questions: state.questionBank,
+      updatedAt: new Date().toISOString()
+    });
+  } catch(e) { console.error('saveQuestionBank:', e); }
+}
+
+async function saveSettings() {
+  if (!firebaseReady) return;
+  try {
+    await db.collection('config').doc('settings').set({
+      ...state.settings,
+      updatedAt: new Date().toISOString()
+    });
+  } catch(e) { console.error('saveSettings:', e); }
+}
+
+async function saveCamperRecord(camper) {
+  if (!firebaseReady) return;
+  try {
+    const { id, ...data } = camper;
+    await db.collection('campers').doc(id).set(data);
+  } catch(e) { console.error('saveCamperRecord:', e); }
+}
+
+async function deleteCamperRecord(camperId) {
+  if (!firebaseReady) return;
+  try { await db.collection('campers').doc(camperId).delete(); } catch(e) {}
+  for (const mode of ['day1', 'day5']) {
+    try { await db.collection('results').doc(`${camperId}_${mode}`).delete(); } catch(e) {}
+  }
+}
+
+async function saveResultRecord(result) {
+  if (!firebaseReady) return;
+  try {
+    await db.collection('results').doc(`${result.camperId}_${result.mode}`).set(result);
+  } catch(e) { console.error('saveResultRecord:', e); }
+}
+
+async function deleteAllCampersAndResults() {
+  if (!firebaseReady) return;
+  try {
+    const camperSnap = await db.collection('campers').get();
+    await Promise.all(camperSnap.docs.map(d => d.ref.delete().catch(() => null)));
+    const resultSnap = await db.collection('results').get();
+    await Promise.all(resultSnap.docs.map(d => d.ref.delete().catch(() => null)));
+  } catch(e) { console.error('deleteAllCampersAndResults:', e); }
+  state.campers = [];
+  state.results = [];
+}
+
+// ============================================================
+// SCREEN ROUTING
+// ============================================================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
+  state.currentCamper = null;
+  state.currentTest = { answers: {}, questionIndex: 0, questions: [] };
+  // Refresh mode silently so home reflects director's latest setting
+  loadCore().then(() => updateHomeMode());
+  showScreen('screen-home');
+}
+
+function updateHomeMode() {
+  const t = document.getElementById('home-mode-text');
+  if (t) t.textContent = state.settings.currentMode === 'day1' ? 'DAY 1 — PRE-TEST ACTIVE' : 'DAY 5 — POST-TEST ACTIVE';
+}
+
+// ============================================================
+// CAMPER FLOW
+// ============================================================
+function startCamperFlow() {
+  if (state.questionBank.length === 0) {
+    alert('No questions have been configured yet. The camp director needs to set up the question bank first.');
+    return;
+  }
+  document.getElementById('input-first-name').value = '';
+  document.getElementById('input-last-name').value = '';
+  document.getElementById('camper-name-alert').innerHTML = '';
+  document.getElementById('camper-name-mode').textContent = state.settings.currentMode === 'day1' ? 'Day 1 — Pre-Test' : 'Day 5 — Post-Test';
+  showScreen('screen-camper-name');
+  setTimeout(() => document.getElementById('input-first-name').focus(), 100);
+}
+
+async function submitCamperIdentity() {
+  const first = document.getElementById('input-first-name').value.trim();
+  const last = document.getElementById('input-last-name').value.trim();
+  const alertBox = document.getElementById('camper-name-alert');
+
+  if (!first || !last) {
+    alertBox.innerHTML = '<div class="alert alert-danger">Please enter your first and last name.</div>';
+    return;
+  }
+
+  alertBox.innerHTML = '<div class="alert alert-info">Checking…</div>';
+
+  // Pull latest campers + results from shared storage so we match against current roster
+  await Promise.all([loadCampers(), loadResults(), loadCore()]);
+
+  // Match existing camper by name (case-insensitive)
+  const key = `${first.toLowerCase()}|${last.toLowerCase()}`;
+  let camper = state.campers.find(c =>
+    `${c.firstName.toLowerCase()}|${c.lastName.toLowerCase()}` === key
+  );
+
+  if (!camper) {
+    camper = {
+      id: 'c-' + Date.now() + '-' + Math.floor(Math.random()*9999),
+      firstName: first,
+      lastName: last,
+      createdAt: new Date().toISOString()
+    };
+    state.campers.push(camper);
+    await saveCamperRecord(camper);
+  }
+
+  // Check for existing result for this mode
+  const existing = state.results.find(r => r.camperId === camper.id && r.mode === state.settings.currentMode);
+  if (existing) {
+    alertBox.innerHTML = `<div class="alert alert-warn">A ${state.settings.currentMode === 'day1' ? 'Day 1 pre-test' : 'Day 5 post-test'} for <strong>${escapeHtml(first + ' ' + last)}</strong> has already been recorded. See your camp director if this is incorrect.</div>`;
+    return;
+  }
+
+  state.currentCamper = camper;
+  state.currentTest = {
+    answers: {},
+    questionIndex: 0,
+    questions: state.questionBank.slice() // snapshot
+  };
+  showScreen('screen-test');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const idx = state.currentTest.questionIndex;
+  const total = state.currentTest.questions.length;
+  const q = state.currentTest.questions[idx];
+  const card = document.getElementById('question-card');
+
+  document.getElementById('test-camper-info').textContent = `${state.currentCamper.firstName.toUpperCase()} ${state.currentCamper.lastName.toUpperCase()}`;
+  document.getElementById('test-mode-tag').textContent = state.settings.currentMode === 'day1' ? 'DAY 1 — PRE-TEST' : 'DAY 5 — POST-TEST';
+  document.getElementById('test-progress-text').textContent = `QUESTION ${idx + 1} OF ${total}`;
+  document.getElementById('test-progress-fill').style.width = `${((idx + 1) / total) * 100}%`;
+
+  const selected = state.currentTest.answers[q.id];
+
+  let optionsHtml = '';
+  q.options.forEach((opt, i) => {
+    const letter = String.fromCharCode(65 + i);
+    const isSelected = selected === i;
+    optionsHtml += `
+      <div class="option ${isSelected ? 'selected' : ''}" onclick="selectOption(${i})">
+        <div class="option-letter">${letter}</div>
+        <div class="option-text">${escapeHtml(opt)}</div>
+      </div>
+    `;
+  });
+
+  card.innerHTML = `
+    <div class="question-tag">${escapeHtml(q.topic)} · ${escapeHtml(q.difficulty)}</div>
+    <div class="question-text">${escapeHtml(q.question)}</div>
+    <div class="option-list">${optionsHtml}</div>
+  `;
+
+  document.getElementById('btn-prev-q').disabled = idx === 0;
+  const nextBtn = document.getElementById('btn-next-q');
+  nextBtn.disabled = selected === undefined;
+  nextBtn.innerHTML = idx === total - 1 ? 'Submit ✓' : 'Next →';
+}
+
+function selectOption(i) {
+  const q = state.currentTest.questions[state.currentTest.questionIndex];
+  state.currentTest.answers[q.id] = i;
+  renderQuestion();
+}
+
+function prevQuestion() {
+  if (state.currentTest.questionIndex > 0) {
+    state.currentTest.questionIndex--;
+    renderQuestion();
+  }
+}
+
+async function nextQuestion() {
+  const idx = state.currentTest.questionIndex;
+  const total = state.currentTest.questions.length;
+  if (idx < total - 1) {
+    state.currentTest.questionIndex++;
+    renderQuestion();
+  } else {
+    await submitTest();
+  }
+}
+
+async function submitTest() {
+  const result = {
+    camperId: state.currentCamper.id,
+    mode: state.settings.currentMode,
+    answers: { ...state.currentTest.answers },
+    submittedAt: new Date().toISOString(),
+    questionSnapshot: state.currentTest.questions.map(q => ({ id: q.id, correctIndex: q.correctIndex }))
+  };
+  state.results.push(result);
+  await saveResultRecord(result);
+
+  const isDay1 = state.settings.currentMode === 'day1';
+  document.getElementById('complete-title').textContent = isDay1 ? 'Pre-Test Logged' : 'Post-Test Logged';
+  document.getElementById('complete-message').textContent = isDay1
+    ? 'Thanks! Your starting knowledge has been recorded. Get ready for an awesome week of flight training.'
+    : 'Mission complete. Your camp learning has been recorded. Outstanding work this week!';
+  document.getElementById('complete-stamp').textContent = isDay1 ? 'PRE-TEST RECORDED' : 'POST-TEST RECORDED';
+  showScreen('screen-complete');
+}
+
+// ============================================================
+// ADMIN AUTH
+// ============================================================
+function showAdminPin() {
+  document.querySelectorAll('.pin-digit').forEach(d => d.value = '');
+  document.getElementById('pin-alert').innerHTML = '';
+  showScreen('screen-admin-pin');
+  setTimeout(() => document.querySelectorAll('.pin-digit')[0].focus(), 100);
+}
+
+function submitAdminPin() {
+  const digits = Array.from(document.querySelectorAll('#screen-admin-pin .pin-digit')).map(d => d.value).join('');
+  if (digits === state.settings.adminPin) {
+    enterAdmin();
+  } else {
+    document.getElementById('pin-alert').innerHTML = '<div class="alert alert-danger">Incorrect PIN. Try again.</div>';
+    document.querySelectorAll('.pin-digit').forEach(d => d.value = '');
+    document.querySelectorAll('.pin-digit')[0].focus();
+  }
+}
+
+async function enterAdmin() {
+  showScreen('screen-admin');
+  await refreshAdminData(true);
+  switchAdminTab('overview');
+  updateModePill();
+}
+
+async function refreshAdminData(silent) {
+  const btn = document.getElementById('btn-refresh');
+  if (btn) btn.disabled = true;
+  await loadAll();
+  if (btn) btn.disabled = false;
+  // Re-render whatever tab is currently active
+  const activeTab = document.querySelector('.admin-tab.active');
+  if (activeTab) {
+    const tabName = activeTab.dataset.tab;
+    if (tabName === 'overview') renderOverview();
+    if (tabName === 'questions') renderQuestionList();
+    if (tabName === 'campers') renderCampersList();
+    if (tabName === 'results') renderResultsList();
+  }
+  updateModePill();
+  if (!silent) showFlash('Latest data loaded.');
+}
+
+function updateModePill() {
+  document.getElementById('admin-mode-pill').textContent = state.settings.currentMode === 'day1' ? 'DAY 1 — PRE-TEST' : 'DAY 5 — POST-TEST';
+}
+
+async function setMode(mode) {
+  state.settings.currentMode = mode;
+  await saveSettings();
+  updateModePill();
+  renderOverview();
+  showFlash('Test mode set to ' + (mode === 'day1' ? 'Day 1 (Pre-Test)' : 'Day 5 (Post-Test)') + '.');
+}
+
+function showFlash(msg) {
+  const div = document.createElement('div');
+  div.style.cssText = 'position:fixed;top:20px;right:20px;background:var(--green-ok);color:white;padding:12px 18px;border-radius:2px;box-shadow:var(--shadow-lg);font-size:14px;z-index:200;animation:fadeIn 0.2s;';
+  div.textContent = msg;
+  document.body.appendChild(div);
+  setTimeout(() => div.remove(), 2400);
+}
+
+// ============================================================
+// ADMIN TABS
+// ============================================================
+function switchAdminTab(tab) {
+  document.querySelectorAll('.admin-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.toggle('active', c.id === 'tab-' + tab));
+  if (tab === 'overview') renderOverview();
+  if (tab === 'questions') renderQuestionList();
+  if (tab === 'campers') renderCampersList();
+  if (tab === 'results') renderResultsList();
+  if (tab === 'settings') renderSettings();
+}
+
+// ============================================================
+// OVERVIEW
+// ============================================================
+function renderOverview() {
+  const day1Count = state.results.filter(r => r.mode === 'day1').length;
+  const day5Count = state.results.filter(r => r.mode === 'day5').length;
+  const totalCampers = state.campers.length;
+
+  // Compute averages
+  let avgPre = null, avgPost = null;
+  const day1Scores = state.results.filter(r => r.mode === 'day1').map(r => calcScore(r));
+  const day5Scores = state.results.filter(r => r.mode === 'day5').map(r => calcScore(r));
+  if (day1Scores.length) avgPre = day1Scores.reduce((a,b) => a+b.pct, 0) / day1Scores.length;
+  if (day5Scores.length) avgPost = day5Scores.reduce((a,b) => a+b.pct, 0) / day5Scores.length;
+
+  // Improvement: campers with both
+  const bothCampers = state.campers.filter(c =>
+    state.results.some(r => r.camperId === c.id && r.mode === 'day1') &&
+    state.results.some(r => r.camperId === c.id && r.mode === 'day5')
+  );
+  let avgImprovement = null;
+  if (bothCampers.length) {
+    const deltas = bothCampers.map(c => {
+      const pre = state.results.find(r => r.camperId === c.id && r.mode === 'day1');
+      const post = state.results.find(r => r.camperId === c.id && r.mode === 'day5');
+      return calcScore(post).pct - calcScore(pre).pct;
+    });
+    avgImprovement = deltas.reduce((a,b)=>a+b,0) / deltas.length;
+  }
+
+  const grid = document.getElementById('stats-grid');
+  grid.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-label">Total Campers</div>
+      <div class="stat-value">${totalCampers}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Day 1 Submissions</div>
+      <div class="stat-value">${day1Count}<span class="stat-suffix"> / ${totalCampers}</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Day 5 Submissions</div>
+      <div class="stat-value">${day5Count}<span class="stat-suffix"> / ${totalCampers}</span></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg Pre-Test Score</div>
+      <div class="stat-value">${avgPre !== null ? avgPre.toFixed(0) + '<span class="stat-suffix">%</span>' : '—'}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg Post-Test Score</div>
+      <div class="stat-value">${avgPost !== null ? avgPost.toFixed(0) + '<span class="stat-suffix">%</span>' : '—'}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg Improvement</div>
+      <div class="stat-value">${avgImprovement !== null ? (avgImprovement >= 0 ? '+' : '') + avgImprovement.toFixed(1) + '<span class="stat-suffix">pts</span>' : '—'}</div>
+      ${avgImprovement !== null ? `<div class="stat-trend ${avgImprovement < 0 ? 'down' : ''}">${bothCampers.length} camper${bothCampers.length===1?'':'s'} completed both</div>` : ''}
+    </div>
+  `;
+
+  // Per-question performance
+  renderQuestionStats();
+}
+
+function renderQuestionStats() {
+  const container = document.getElementById('question-stats-list');
+  if (state.questionBank.length === 0) {
+    container.innerHTML = '<div class="empty-state"><h3>No questions yet</h3><p>Add questions in the Questions tab.</p></div>';
+    return;
+  }
+
+  // For each question, compute correct% on day1 and day5
+  const stats = state.questionBank.map(q => {
+    const day1Results = state.results.filter(r => r.mode === 'day1');
+    const day5Results = state.results.filter(r => r.mode === 'day5');
+    const day1Correct = day1Results.filter(r => r.answers[q.id] === q.correctIndex).length;
+    const day5Correct = day5Results.filter(r => r.answers[q.id] === q.correctIndex).length;
+    const day1Pct = day1Results.length ? (day1Correct / day1Results.length) * 100 : null;
+    const day5Pct = day5Results.length ? (day5Correct / day5Results.length) * 100 : null;
+    return { q, day1Pct, day5Pct, gain: (day1Pct !== null && day5Pct !== null) ? day5Pct - day1Pct : null };
+  });
+
+  let html = '';
+  stats.forEach(s => {
+    const cls = s.gain !== null ? (s.gain >= 25 ? 'high-gain' : (s.day5Pct !== null && s.day5Pct < 50 ? 'problem' : '')) : '';
+    html += `
+      <div class="qstat-row ${cls}">
+        <div class="qstat-text"><strong style="color:var(--gold-deep); font-size:11px; text-transform:uppercase; letter-spacing:0.15em; font-family:'IBM Plex Mono',monospace;">${escapeHtml(s.q.topic)}</strong> &nbsp; ${escapeHtml(s.q.question)}</div>
+        <div class="qstat-bars">
+          <div class="qstat-label">Day 1</div>
+          <div class="qstat-bar"><div class="qstat-bar-fill" style="width: ${s.day1Pct || 0}%"></div></div>
+          <div class="qstat-pct">${s.day1Pct !== null ? s.day1Pct.toFixed(0) + '%' : '—'}</div>
+        </div>
+        <div class="qstat-bars">
+          <div class="qstat-label">Day 5</div>
+          <div class="qstat-bar"><div class="qstat-bar-fill post" style="width: ${s.day5Pct || 0}%"></div></div>
+          <div class="qstat-pct">${s.day5Pct !== null ? s.day5Pct.toFixed(0) + '%' : '—'}</div>
+        </div>
+        ${s.gain !== null ? `<div style="margin-top:4px; font-size:12px; color:${s.gain>=0?'var(--green-ok)':'var(--red-warn)'}; font-weight:500;">${s.gain >= 0 ? '+' : ''}${s.gain.toFixed(1)} pt gain</div>` : ''}
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+// ============================================================
+// QUESTIONS TAB
+// ============================================================
+function renderQuestionList() {
+  const container = document.getElementById('question-list-container');
+  if (state.questionBank.length === 0) {
+    container.innerHTML = '<div class="empty-state"><h3>No questions yet</h3><p>Click "+ Add Question" to begin building your test.</p></div>';
+    return;
+  }
+
+  let html = '<div class="question-list">';
+  state.questionBank.forEach((q, i) => {
+    const typeLabel = q.type === 'tf' ? 'T/F' : 'MC';
+    html += `
+      <div class="question-row">
+        <div class="question-row-info">
+          <div class="question-row-meta">
+            <span class="badge badge-pre">${escapeHtml(q.topic)}</span>
+            <span class="badge badge-pending">${escapeHtml(q.difficulty)}</span>
+            <span class="badge" style="background:rgba(201,169,97,0.15); color:var(--gold-deep);">${typeLabel}</span>
+          </div>
+          <div class="question-row-text">${i+1}. ${escapeHtml(q.question)}</div>
+        </div>
+        <div class="question-row-actions">
+          <button class="icon-btn" onclick="openQuestionEditor('${q.id}')" title="Edit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </button>
+          <button class="icon-btn danger" onclick="deleteQuestion('${q.id}')" title="Delete">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function openQuestionEditor(id) {
+  const q = id ? state.questionBank.find(x => x.id === id) : null;
+  const isEdit = !!q;
+  const data = q || { topic: '', difficulty: 'medium', type: 'mc', question: '', options: ['', '', '', ''], correctIndex: 0 };
+
+  const optionsHtml = data.options.map((opt, i) => `
+    <div class="answer-option-edit">
+      <input type="radio" name="qe-correct" value="${i}" ${data.correctIndex === i ? 'checked' : ''}>
+      <input type="text" class="qe-option" data-idx="${i}" value="${escapeHtml(opt)}" placeholder="Option ${String.fromCharCode(65+i)}" maxlength="200">
+    </div>
+  `).join('');
+
+  openModal(isEdit ? 'Edit Question' : 'Add Question', `
+    <div class="form-group">
+      <label>Question Text</label>
+      <textarea id="qe-question" rows="3" maxlength="500">${escapeHtml(data.question)}</textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Topic</label>
+        <input type="text" id="qe-topic" value="${escapeHtml(data.topic)}" maxlength="50" placeholder="e.g. Aerodynamics">
+      </div>
+      <div class="form-group">
+        <label>Difficulty</label>
+        <select id="qe-difficulty">
+          <option value="easy" ${data.difficulty==='easy'?'selected':''}>Easy</option>
+          <option value="medium" ${data.difficulty==='medium'?'selected':''}>Medium</option>
+          <option value="hard" ${data.difficulty==='hard'?'selected':''}>Hard</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Question Type</label>
+      <select id="qe-type" onchange="onTypeChange()">
+        <option value="mc" ${data.type==='mc'?'selected':''}>Multiple Choice (4 options)</option>
+        <option value="tf" ${data.type==='tf'?'selected':''}>True / False</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Answer Options &nbsp;<span style="color:var(--slate); font-size:11px; font-weight:400;">(select the correct one)</span></label>
+      <div class="answer-options-edit" id="qe-options">${optionsHtml}</div>
+    </div>
+    <div id="qe-alert"></div>
+  `, [
+    { label: 'Cancel', class: 'btn btn-ghost', onclick: 'closeModal()' },
+    { label: isEdit ? 'Save Changes' : 'Add Question', class: 'btn btn-gold', onclick: `saveQuestion(${isEdit ? `'${id}'` : 'null'})` }
+  ]);
+
+  // If T/F, initialize fields
+  if (data.type === 'tf') onTypeChange();
+}
+
+function onTypeChange() {
+  const type = document.getElementById('qe-type').value;
+  const opts = document.querySelectorAll('.qe-option');
+  if (type === 'tf') {
+    opts[0].value = 'True';
+    opts[1].value = 'False';
+    opts[0].disabled = true;
+    opts[1].disabled = true;
+    // hide last 2
+    opts[2].closest('.answer-option-edit').style.display = 'none';
+    opts[3].closest('.answer-option-edit').style.display = 'none';
+  } else {
+    opts[0].disabled = false;
+    opts[1].disabled = false;
+    opts[2].closest('.answer-option-edit').style.display = '';
+    opts[3].closest('.answer-option-edit').style.display = '';
+  }
+}
+
+async function saveQuestion(id) {
+  const question = document.getElementById('qe-question').value.trim();
+  const topic = document.getElementById('qe-topic').value.trim();
+  const difficulty = document.getElementById('qe-difficulty').value;
+  const type = document.getElementById('qe-type').value;
+  const options = Array.from(document.querySelectorAll('.qe-option')).map(o => o.value.trim());
+  const correctRadio = document.querySelector('input[name="qe-correct"]:checked');
+  const alertBox = document.getElementById('qe-alert');
+
+  if (!question) { alertBox.innerHTML = '<div class="alert alert-danger">Question text is required.</div>'; return; }
+  if (!topic) { alertBox.innerHTML = '<div class="alert alert-danger">Topic is required.</div>'; return; }
+  if (!correctRadio) { alertBox.innerHTML = '<div class="alert alert-danger">Select the correct answer.</div>'; return; }
+
+  let finalOptions;
+  if (type === 'tf') {
+    finalOptions = ['True', 'False'];
+    if (parseInt(correctRadio.value) > 1) {
+      alertBox.innerHTML = '<div class="alert alert-danger">For T/F, select True or False.</div>'; return;
+    }
+  } else {
+    if (options.slice(0,4).some(o => !o)) {
+      alertBox.innerHTML = '<div class="alert alert-danger">All four options must have text for multiple choice.</div>'; return;
+    }
+    finalOptions = options.slice(0,4);
+  }
+
+  if (id) {
+    const q = state.questionBank.find(x => x.id === id);
+    Object.assign(q, { question, topic, difficulty, type, options: finalOptions, correctIndex: parseInt(correctRadio.value) });
+  } else {
+    state.questionBank.push({
+      id: 'q-' + Date.now() + '-' + Math.floor(Math.random()*9999),
+      question, topic, difficulty, type, options: finalOptions, correctIndex: parseInt(correctRadio.value)
+    });
+  }
+  await saveQuestionBank();
+  closeModal();
+  renderQuestionList();
+  showFlash(id ? 'Question updated.' : 'Question added.');
+}
+
+function deleteQuestion(id) {
+  const q = state.questionBank.find(x => x.id === id);
+  if (!q) return;
+  openModal('Delete Question?', `
+    <p>Are you sure you want to delete this question?</p>
+    <div class="alert alert-warn mt-16">"${escapeHtml(q.question)}"</div>
+    <p class="text-small text-muted mt-16">If campers have already answered this question on Day 1, deleting it will remove it from their Day 5 test as well, and their answers to it will not appear in results.</p>
+  `, [
+    { label: 'Cancel', class: 'btn btn-ghost', onclick: 'closeModal()' },
+    { label: 'Delete', class: 'btn btn-danger', onclick: `confirmDeleteQuestion('${id}')` }
+  ]);
+}
+
+async function confirmDeleteQuestion(id) {
+  state.questionBank = state.questionBank.filter(x => x.id !== id);
+  await saveQuestionBank();
+  closeModal();
+  renderQuestionList();
+  showFlash('Question deleted.');
+}
+
+function exportQuestions() {
+  const blob = new Blob([JSON.stringify(state.questionBank, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `cjfa-questions-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+async function importQuestions(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  try {
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    if (!Array.isArray(parsed)) throw new Error('Not an array');
+    // Basic validation
+    parsed.forEach(q => {
+      if (!q.id || !q.question || !q.options || typeof q.correctIndex !== 'number') throw new Error('Invalid question structure');
+    });
+    openModal('Import Questions?', `
+      <p>This will <strong>replace</strong> your current question bank with ${parsed.length} questions from <strong>${escapeHtml(file.name)}</strong>.</p>
+      <div class="alert alert-warn mt-16">Existing test results will remain, but questions removed by this import won't appear in results anymore.</div>
+    `, [
+      { label: 'Cancel', class: 'btn btn-ghost', onclick: 'closeModal()' },
+      { label: 'Replace Question Bank', class: 'btn btn-gold', onclick: `doImportQuestions()` }
+    ]);
+    window._pendingImport = parsed;
+  } catch (e) {
+    alert('Could not parse file: ' + e.message);
+  }
+  event.target.value = '';
+}
+
+async function doImportQuestions() {
+  if (!window._pendingImport) return;
+  state.questionBank = window._pendingImport;
+  window._pendingImport = null;
+  await saveQuestionBank();
+  closeModal();
+  renderQuestionList();
+  showFlash('Question bank imported.');
+}
+
+// ============================================================
+// CAMPERS TAB
+// ============================================================
+function renderCampersList() {
+  const container = document.getElementById('campers-list-container');
+  if (state.campers.length === 0) {
+    container.innerHTML = '<div class="empty-state"><h3>No campers registered yet</h3><p>Campers are auto-added when they take a test, or you can pre-load them here.</p></div>';
+    return;
+  }
+
+  let html = '<div class="table-wrap"><table class="data-table"><thead><tr>';
+  html += '<th>Name</th><th>Day 1</th><th>Day 5</th><th style="width:100px;">Actions</th>';
+  html += '</tr></thead><tbody>';
+
+  // Sort by last name
+  const sorted = [...state.campers].sort((a,b) => a.lastName.localeCompare(b.lastName));
+
+  sorted.forEach(c => {
+    const day1 = state.results.find(r => r.camperId === c.id && r.mode === 'day1');
+    const day5 = state.results.find(r => r.camperId === c.id && r.mode === 'day5');
+    html += `
+      <tr>
+        <td><strong>${escapeHtml(c.lastName)}, ${escapeHtml(c.firstName)}</strong></td>
+        <td>${day1 ? `<span class="badge badge-post">${calcScore(day1).pct.toFixed(0)}%</span>` : '<span class="badge badge-pending">Pending</span>'}</td>
+        <td>${day5 ? `<span class="badge badge-post">${calcScore(day5).pct.toFixed(0)}%</span>` : '<span class="badge badge-pending">Pending</span>'}</td>
+        <td>
+          <button class="icon-btn" onclick="openCamperEditor('${c.id}')" title="Edit">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </button>
+          <button class="icon-btn danger" onclick="deleteCamper('${c.id}')" title="Delete">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+  html += '</tbody></table></div>';
+  container.innerHTML = html;
+}
+
+function openCamperEditor(id) {
+  const c = id ? state.campers.find(x => x.id === id) : null;
+  const isEdit = !!c;
+  const data = c || { firstName: '', lastName: '' };
+
+  openModal(isEdit ? 'Edit Camper' : 'Add Camper', `
+    <div class="form-row">
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text" id="ce-first" value="${escapeHtml(data.firstName)}" maxlength="40">
+      </div>
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="text" id="ce-last" value="${escapeHtml(data.lastName)}" maxlength="40">
+      </div>
+    </div>
+    <div id="ce-alert"></div>
+  `, [
+    { label: 'Cancel', class: 'btn btn-ghost', onclick: 'closeModal()' },
+    { label: isEdit ? 'Save' : 'Add', class: 'btn btn-gold', onclick: `saveCamper(${isEdit ? `'${id}'` : 'null'})` }
+  ]);
+}
+
+async function saveCamper(id) {
+  const first = document.getElementById('ce-first').value.trim();
+  const last = document.getElementById('ce-last').value.trim();
+  const alertBox = document.getElementById('ce-alert');
+
+  if (!first || !last) { alertBox.innerHTML = '<div class="alert alert-danger">First and last names are required.</div>'; return; }
+
+  let camper;
+  if (id) {
+    camper = state.campers.find(x => x.id === id);
+    Object.assign(camper, { firstName: first, lastName: last });
+  } else {
+    camper = {
+      id: 'c-' + Date.now() + '-' + Math.floor(Math.random()*9999),
+      firstName: first, lastName: last,
+      createdAt: new Date().toISOString()
+    };
+    state.campers.push(camper);
+  }
+  await saveCamperRecord(camper);
+  closeModal();
+  renderCampersList();
+  showFlash(id ? 'Camper updated.' : 'Camper added.');
+}
+
+function deleteCamper(id) {
+  const c = state.campers.find(x => x.id === id);
+  if (!c) return;
+  const hasResults = state.results.some(r => r.camperId === id);
+  openModal('Delete Camper?', `
+    <p>Delete <strong>${escapeHtml(c.firstName)} ${escapeHtml(c.lastName)}</strong> from the roster?</p>
+    ${hasResults ? '<div class="alert alert-warn mt-16">This camper has test results that will also be deleted.</div>' : ''}
+  `, [
+    { label: 'Cancel', class: 'btn btn-ghost', onclick: 'closeModal()' },
+    { label: 'Delete', class: 'btn btn-danger', onclick: `confirmDeleteCamper('${id}')` }
+  ]);
+}
+
+async function confirmDeleteCamper(id) {
+  state.campers = state.campers.filter(x => x.id !== id);
+  state.results = state.results.filter(r => r.camperId !== id);
+  await deleteCamperRecord(id);
+  closeModal();
+  renderCampersList();
+  showFlash('Camper deleted.');
+}
+
+function exportCampers() {
+  let csv = 'Last Name,First Name,Day 1 Status,Day 1 Score (%),Day 5 Status,Day 5 Score (%),Improvement (pts)\n';
+  state.campers.forEach(c => {
+    const d1 = state.results.find(r => r.camperId === c.id && r.mode === 'day1');
+    const d5 = state.results.find(r => r.camperId === c.id && r.mode === 'day5');
+    const d1pct = d1 ? calcScore(d1).pct.toFixed(1) : '';
+    const d5pct = d5 ? calcScore(d5).pct.toFixed(1) : '';
+    const delta = (d1 && d5) ? (calcScore(d5).pct - calcScore(d1).pct).toFixed(1) : '';
+    csv += [
+      csvEscape(c.lastName), csvEscape(c.firstName),
+      d1 ? 'Complete' : 'Pending', d1pct,
+      d5 ? 'Complete' : 'Pending', d5pct, delta
+    ].join(',') + '\n';
+  });
+  downloadCsv(csv, `cjfa-campers-${new Date().toISOString().slice(0,10)}.csv`);
+}
+
+// ============================================================
+// RESULTS TAB
+// ============================================================
+function renderResultsList() {
+  const container = document.getElementById('results-list-container');
+  const camperData = state.campers.map(c => {
+    const d1 = state.results.find(r => r.camperId === c.id && r.mode === 'day1');
+    const d5 = state.results.find(r => r.camperId === c.id && r.mode === 'day5');
+    return { camper: c, d1, d5 };
+  }).filter(x => x.d1 || x.d5);
+
+  if (camperData.length === 0) {
+    container.innerHTML = '<div class="empty-state"><h3>No results yet</h3><p>Once campers begin submitting tests, individual breakdowns will appear here.</p></div>';
+    return;
+  }
+
+  // Sort by last name
+  camperData.sort((a,b) => a.camper.lastName.localeCompare(b.camper.lastName));
+
+  let html = '';
+  camperData.forEach(({ camper, d1, d5 }) => {
+    const d1Score = d1 ? calcScore(d1) : null;
+    const d5Score = d5 ? calcScore(d5) : null;
+    const delta = (d1Score && d5Score) ? d5Score.pct - d1Score.pct : null;
+
+    let questionListHtml = '';
+    if (d1 || d5) {
+      questionListHtml = '<div class="question-comparison-list">';
+      state.questionBank.forEach((q, i) => {
+        const d1Ans = d1 ? d1.answers[q.id] : undefined;
+        const d5Ans = d5 ? d5.answers[q.id] : undefined;
+        const d1Status = d1Ans === undefined ? 'empty' : (d1Ans === q.correctIndex ? 'correct' : 'wrong');
+        const d5Status = d5Ans === undefined ? 'empty' : (d5Ans === q.correctIndex ? 'correct' : 'wrong');
+        questionListHtml += `
+          <div class="question-comparison">
+            <div class="qc-text">${i+1}. ${escapeHtml(q.question)}</div>
+            <div class="qc-result">D1</div>
+            <div class="qc-status ${d1Status}">${d1Status==='correct'?'✓':d1Status==='wrong'?'✗':'—'}</div>
+          </div>
+          <div class="question-comparison" style="margin-top:-4px; opacity:0.95;">
+            <div class="qc-text" style="opacity:0;">.</div>
+            <div class="qc-result">D5</div>
+            <div class="qc-status ${d5Status}">${d5Status==='correct'?'✓':d5Status==='wrong'?'✗':'—'}</div>
+          </div>
+        `;
+      });
+      questionListHtml += '</div>';
+    }
+
+    html += `
+      <div class="camper-detail-card">
+        <div class="camper-detail-header">
+          <div>
+            <div class="camper-name">${escapeHtml(camper.lastName)}, ${escapeHtml(camper.firstName)}</div>
+          </div>
+        </div>
+        <div class="score-comparison">
+          <div class="score-block">
+            <div class="score-block-label">Day 1 Pre-Test</div>
+            <div class="score-value">${d1Score ? d1Score.correct : '—'}<span class="score-value-percent">${d1Score ? `/${d1Score.total}` : ''}</span></div>
+            <div class="score-block-label" style="margin-top:4px;">${d1Score ? d1Score.pct.toFixed(0) + '%' : 'Not taken'}</div>
+          </div>
+          <div class="score-arrow">→</div>
+          <div class="score-block">
+            <div class="score-block-label">Day 5 Post-Test</div>
+            <div class="score-value">${d5Score ? d5Score.correct : '—'}<span class="score-value-percent">${d5Score ? `/${d5Score.total}` : ''}</span></div>
+            <div class="score-block-label" style="margin-top:4px;">${d5Score ? d5Score.pct.toFixed(0) + '%' : 'Not taken'}</div>
+          </div>
+        </div>
+        ${delta !== null ? `
+          <div style="text-align:center; margin-bottom: 16px;">
+            <span class="score-delta ${delta > 0 ? 'up' : delta < 0 ? 'down' : 'flat'}">
+              ${delta > 0 ? '+' : ''}${delta.toFixed(1)} pts
+            </span>
+            <div class="qstat-label" style="margin-top:4px;">${delta > 0 ? 'Improvement' : delta < 0 ? 'Regression' : 'No change'}</div>
+          </div>
+        ` : ''}
+        ${questionListHtml}
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
+
+function exportResults() {
+  // CSV with one row per camper-question
+  let csv = 'Last Name,First Name,Question #,Topic,Question,Day 1 Answer,Day 1 Correct?,Day 5 Answer,Day 5 Correct?,Improved\n';
+  state.campers.forEach(c => {
+    const d1 = state.results.find(r => r.camperId === c.id && r.mode === 'day1');
+    const d5 = state.results.find(r => r.camperId === c.id && r.mode === 'day5');
+    if (!d1 && !d5) return;
+    state.questionBank.forEach((q, i) => {
+      const d1Ans = d1 ? d1.answers[q.id] : undefined;
+      const d5Ans = d5 ? d5.answers[q.id] : undefined;
+      const d1Text = d1Ans !== undefined ? q.options[d1Ans] : '';
+      const d5Text = d5Ans !== undefined ? q.options[d5Ans] : '';
+      const d1Right = d1Ans === q.correctIndex ? 'Yes' : (d1Ans !== undefined ? 'No' : '');
+      const d5Right = d5Ans === q.correctIndex ? 'Yes' : (d5Ans !== undefined ? 'No' : '');
+      let improved = '';
+      if (d1Ans !== undefined && d5Ans !== undefined) {
+        if (d1Ans !== q.correctIndex && d5Ans === q.correctIndex) improved = 'Gained';
+        else if (d1Ans === q.correctIndex && d5Ans !== q.correctIndex) improved = 'Lost';
+        else if (d1Ans === q.correctIndex && d5Ans === q.correctIndex) improved = 'Held';
+        else improved = 'Still missed';
+      }
+      csv += [
+        csvEscape(c.lastName), csvEscape(c.firstName),
+        i+1, csvEscape(q.topic), csvEscape(q.question),
+        csvEscape(d1Text), d1Right, csvEscape(d5Text), d5Right, improved
+      ].join(',') + '\n';
+    });
+  });
+  downloadCsv(csv, `cjfa-results-detail-${new Date().toISOString().slice(0,10)}.csv`);
+}
+
+// ============================================================
+// SETTINGS TAB
+// ============================================================
+function renderSettings() {
+  document.getElementById('new-pin').value = '';
+  document.getElementById('new-pin-confirm').value = '';
+  document.getElementById('pin-change-alert').innerHTML = '';
+}
+
+async function changePin() {
+  const a = document.getElementById('new-pin').value;
+  const b = document.getElementById('new-pin-confirm').value;
+  const alertBox = document.getElementById('pin-change-alert');
+  if (!/^\d{4}$/.test(a)) { alertBox.innerHTML = '<div class="alert alert-danger">PIN must be exactly 4 digits.</div>'; return; }
+  if (a !== b) { alertBox.innerHTML = '<div class="alert alert-danger">PINs do not match.</div>'; return; }
+  state.settings.adminPin = a;
+  await saveSettings();
+  alertBox.innerHTML = '<div class="alert alert-success">PIN updated successfully.</div>';
+  document.getElementById('new-pin').value = '';
+  document.getElementById('new-pin-confirm').value = '';
+}
+
+function confirmResetCampData() {
+  openModal('Reset Camp Data?', `
+    <p>This will delete all <strong>${state.campers.length}</strong> campers and <strong>${state.results.length}</strong> test results.</p>
+    <p class="mt-16">Your question bank and director PIN will be preserved.</p>
+    <div class="alert alert-warn mt-16">This cannot be undone. Export your data first if you want a record.</div>
+  `, [
+    { label: 'Cancel', class: 'btn btn-ghost', onclick: 'closeModal()' },
+    { label: 'Reset', class: 'btn btn-danger', onclick: 'doResetCampData()' }
+  ]);
+}
+
+async function doResetCampData() {
+  closeModal();
+  showFlash('Clearing camp data…');
+  await deleteAllCampersAndResults();
+  showFlash('Camp data reset.');
+  switchAdminTab('overview');
+}
+
+function confirmFullReset() {
+  openModal('Full Reset?', `
+    <p>This will erase <strong>everything</strong>: questions, campers, results, PIN, and settings. The tool will return to factory defaults.</p>
+    <div class="alert alert-danger mt-16">This action is permanent and cannot be undone, and it will affect every device using this tool.</div>
+  `, [
+    { label: 'Cancel', class: 'btn btn-ghost', onclick: 'closeModal()' },
+    { label: 'Erase Everything', class: 'btn btn-danger', onclick: 'doFullReset()' }
+  ]);
+}
+
+async function doFullReset() {
+  closeModal();
+  showFlash('Erasing all data…');
+  try {
+    if (firebaseReady) {
+      await db.collection('config').doc('qbank').delete().catch(() => null);
+      await db.collection('config').doc('settings').delete().catch(() => null);
+    }
+  } catch(e) {}
+  await deleteAllCampersAndResults();
+  state.questionBank = DEFAULT_QUESTIONS.slice();
+  state.settings = { ...DEFAULT_SETTINGS };
+  await saveQuestionBank();
+  await saveSettings();
+  showFlash('All data erased. Returned to factory defaults.');
+  goHome();
+}
+
+// ============================================================
+// MODAL HELPERS
+// ============================================================
+function openModal(title, bodyHtml, actions) {
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-body').innerHTML = bodyHtml;
+  const footer = document.getElementById('modal-footer');
+  footer.innerHTML = '';
+  actions.forEach(a => {
+    const btn = document.createElement('button');
+    btn.className = a.class;
+    btn.textContent = a.label;
+    btn.setAttribute('onclick', a.onclick);
+    footer.appendChild(btn);
+  });
+  document.getElementById('modal-overlay').classList.add('active');
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').classList.remove('active');
+}
+
+document.getElementById('modal-overlay').addEventListener('click', (e) => {
+  if (e.target.id === 'modal-overlay') closeModal();
+});
+
+// ============================================================
+// UTILITIES
+// ============================================================
+function escapeHtml(s) {
+  if (s === undefined || s === null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+function csvEscape(s) {
+  if (s === undefined || s === null) return '';
+  const str = String(s);
+  if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+    return '"' + str.replace(/"/g, '""') + '"';
+  }
+  return str;
+}
+
+function downloadCsv(csv, filename) {
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function calcScore(result) {
+  // Use the snapshot if available (so if questions change later, scores still make sense)
+  const snap = result.questionSnapshot || state.questionBank;
+  let correct = 0;
+  let total = snap.length;
+  snap.forEach(q => {
+    const correctIdx = q.correctIndex !== undefined ? q.correctIndex : (state.questionBank.find(x => x.id === q.id)?.correctIndex);
+    if (result.answers[q.id] === correctIdx) correct++;
+  });
+  const pct = total > 0 ? (correct / total) * 100 : 0;
+  return { correct, total, pct };
+}
+
+// PIN auto-advance
+document.querySelectorAll('.pin-digit').forEach((digit, i, arr) => {
+  digit.addEventListener('input', () => {
+    if (digit.value && i < arr.length - 1) arr[i+1].focus();
+  });
+  digit.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !digit.value && i > 0) arr[i-1].focus();
+    if (e.key === 'Enter') submitAdminPin();
+  });
+});
+
+// ============================================================
+// INIT
+// ============================================================
+(async function init() {
+  if (!isFirebaseConfigured()) {
+    // Show setup screen — Firebase config still has placeholder values
+    showScreen('screen-setup');
+    return;
+  }
+
+  // Show home immediately, then init Firebase in background
+  showScreen('screen-home');
+  document.getElementById('home-mode-text').textContent = 'CONNECTING…';
+
+  const ok = await initFirebase();
+  if (!ok) {
+    showScreen('screen-setup');
+    return;
+  }
+  await loadCore();
+  updateHomeMode();
+})();
+</script>
+</body>
+</html>
